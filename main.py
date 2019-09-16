@@ -33,25 +33,21 @@ def flow():
 
 	return psutil.disk_io_counters()[3]
 
-count = 0
+print("start call me")
+print(time.asctime( time.localtime(time.time() ) ) )
+count = []
 while True:
 	fir = flow()
 	time.sleep(1)
 	last = flow()
 	num = round((last-fir)/1024**2, 2)
-	time.sleep(1)
-	if num <0.3:
-		count +=1
-		if count >10:
-			print(num)
-			ret=mail()
-			while not ret:
-				if mail():
-					break
-			count = 0
+	if num <0.2:
+		count.append(num)
+		if len(count) >10:
+			print(count)
+			while not mail():
+				time.sleep(10)
 			time.sleep(3600)
 	else:
-		count = 0
+		count = []
 	time.sleep(10)
-bot.join() 
-
