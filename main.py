@@ -1,4 +1,4 @@
-import os
+﻿import os
 import re
 import time
 import psutil
@@ -10,13 +10,13 @@ from email.utils import formataddr
 
 def mail():
 	
-	my_sender='1767376881@qq.com'  # 发件人邮箱账号
-	my_pass = 'okaburgptfjkchbi'   # 发件人邮箱密码
-	my_user ='805907631@qq.com'      # 收件人邮箱账号，我这边发送给自己
+	my_sender=''  # 发件人邮箱账号
+	my_pass = ''   # 发件人邮箱密码
+	my_user =''      # 收件人邮箱账号，我这边发送给自己
 	ret=True
 	try:
 		msg=MIMEText('快来看看吧','plain','utf-8')
-		msg['From']=formataddr(["FromRunoob",my_sender])  # 括号里的对应发件人邮箱昵称、发件人邮箱账号
+		msg['From']=formataddr(["xiaoxiaoqiao",my_sender])  # 括号里的对应发件人邮箱昵称、发件人邮箱账号
 		msg['To']=formataddr(["FK",my_user])              # 括号里的对应收件人邮箱昵称、收件人邮箱账号
 		msg['Subject']="监控网络好像挂掉了"                # 邮件的主题，也可以说是标题
 		server=smtplib.SMTP_SSL("smtp.qq.com", 465)  # 发件人邮箱中的SMTP服务器，端口是25
@@ -38,16 +38,16 @@ print(time.asctime( time.localtime(time.time() ) ) )
 count = []
 while True:
 	fir = flow()
-	time.sleep(1)
+	time.sleep(10)
 	last = flow()
-	num = round((last-fir)/1024**2, 2)
-	if num <0.2:
+	num = round((last-fir)/10/1024**2, 2)
+	if num <0.18:
 		count.append(num)
-		if len(count) >10:
+		if len(count) >8:
 			print(count)
 			while not mail():
 				time.sleep(10)
+			count = []
 			time.sleep(3600)
 	else:
 		count = []
-	time.sleep(10)
